@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  frontend:
+    build: ./frontend
+    image: myapp/frontend:latest
+    ports:
+      - "80:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    image: myapp/backend:latest
+    environment:
+      - PORT=4000
+      - REDIS_URL=redis://redis:6379
+    ports:
+      - "4000:4000"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
